@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EventCheckin"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:vm="clr-namespace:EventCheckin.ViewModel"
         mc:Ignorable="d"
-        Title="签到系统" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="签到系统" Height="450" Width="800" WindowStartupLocation="CenterScreen" DataContext="{Binding Main,Source={x:Static vm:ViewModelLocator.Instance}}">
     <Grid Background="{StaticResource WindowTitleColorBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
