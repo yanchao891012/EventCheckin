@@ -134,18 +134,6 @@
                 </StackPanel>
 
                 <ListBox Grid.Column="1" ItemsSource="{Binding SalesManList}" SelectedItem="{Binding SelectedSalesManListBox,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="Transparent" Style="{StaticResource VirtualisedMetroListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
-                    <!--<ListBox.ToolTip>
-                        <Style TargetType="ToolTip">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        --><!--<Image Width="400" Height="400" Source="{Binding ImagePath}"/>--><!--
-                                        <TextBlock Text="{Binding DataContext.ImagePath,RelativeSource={RelativeSource AncestorType=ListBoxItem,Mode=PreviousData}}"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ToolTip>-->
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal"/>
