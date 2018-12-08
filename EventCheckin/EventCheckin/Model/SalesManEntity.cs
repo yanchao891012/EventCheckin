@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventCheckin.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,12 @@ namespace EventCheckin.Model
     /// <summary>
     /// 业务员类
     /// </summary>
-   public class SalesManEntity
+    public class SalesManEntity
     {
         private long _iD;
         private string _name;
         private string _imageName;
+        private string _imagePath;
         /// <summary>
         /// ID
         /// </summary>
@@ -57,6 +59,23 @@ namespace EventCheckin.Model
             set
             {
                 _imageName = value;
+                if (!string.IsNullOrEmpty(_imageName))
+                    ImagePath = CommonValues.IMAGEPATH + "\\" + _imageName;
+            }
+        }
+        /// <summary>
+        /// 图片路径
+        /// </summary>
+        public string ImagePath
+        {
+            get
+            {
+                return _imagePath;
+            }
+
+            set
+            {
+                _imagePath = value;
             }
         }
     }

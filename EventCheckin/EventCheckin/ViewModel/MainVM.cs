@@ -34,7 +34,7 @@ namespace EventCheckin.ViewModel
             }
         }
 
-        private ObservableCollection<SalesManEntity> _salesManList = new ObservableCollection<SalesManEntity>(DBHelper.SelectSalesMan());
+        private ObservableCollection<SalesManEntity> _salesManList = new ObservableCollection<SalesManEntity>();
         /// <summary>
         /// 业务员列表
         /// </summary>
@@ -69,6 +69,24 @@ namespace EventCheckin.ViewModel
                 RaisePropertyChanged(() => this.SelectedSalesManDataGrid);
             }
         }
+
+        private SalesManEntity _selectedSalesManListBox = new SalesManEntity();
+        /// <summary>
+        /// Listbox中的业务员选中项
+        /// </summary>
+        public SalesManEntity SelectedSalesManListBox
+        {
+            get
+            {
+                return _selectedSalesManListBox;
+            }
+
+            set
+            {
+                _selectedSalesManListBox = value;
+                RaisePropertyChanged(() => this.SelectedSalesManListBox);
+            }
+        }
         #endregion
 
         #region 事件
@@ -82,6 +100,7 @@ namespace EventCheckin.ViewModel
             {
                 return _loadCommand ?? (_loadCommand = new RelayCommand(() =>
                 {
+                    SalesManList= new ObservableCollection<SalesManEntity>(DBHelper.SelectSalesMan());
                     if (SalesManList.Count <= 0)
                     {
                         CustomMessageBox.ShowInfoMessage("现在还没有业务员信息，即将跳转业务员维护页面！");
