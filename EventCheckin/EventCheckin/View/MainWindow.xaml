@@ -25,6 +25,17 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Foreground" Value="White"/>
             </Style>
+            <Style x:Key="ImageToolTip" TargetType="ToolTip">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Width="400" Height="400" Source="{Binding DataContext.ImagePath,RelativeSource={RelativeSource AncestorType=ListBoxItem,Mode=FindAncestor}}"/>
+                            </Border>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style TargetType="ListBoxItem" BasedOn="{StaticResource MetroListBoxItem}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -34,8 +45,12 @@
                                 BorderBrush="White"
                                 BorderThickness="2" Margin="2">
                                 <StackPanel VerticalAlignment="Center">
-                                    <Image Width="100" Height="100" Source="{Binding ImagePath}"/>
-                                    <TextBlock Text="{Binding Name}" Margin="3,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                    <Image x:Name="img" Width="100" Height="100" Source="{Binding ImagePath}">
+                                        <Image.ToolTip>
+                                            <ToolTip Style="{StaticResource ImageToolTip}"/>
+                                        </Image.ToolTip>
+                                    </Image>
+                                    <TextBlock Text="{Binding Name}" Margin="3,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                                 </StackPanel>
                             </Border>
                             <ControlTemplate.Triggers>
@@ -119,6 +134,18 @@
                 </StackPanel>
 
                 <ListBox Grid.Column="1" ItemsSource="{Binding SalesManList}" SelectedItem="{Binding SelectedSalesManListBox,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="Transparent" Style="{StaticResource VirtualisedMetroListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
+                    <!--<ListBox.ToolTip>
+                        <Style TargetType="ToolTip">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        --><!--<Image Width="400" Height="400" Source="{Binding ImagePath}"/>--><!--
+                                        <TextBlock Text="{Binding DataContext.ImagePath,RelativeSource={RelativeSource AncestorType=ListBoxItem,Mode=PreviousData}}"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ToolTip>-->
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal"/>
