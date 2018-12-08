@@ -1,0 +1,28 @@
+﻿<Controls:MetroWindow x:Class="EventCheckin.View.SalesManAddWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:EventCheckin.View"
+        mc:Ignorable="d"
+        Title="新增业务员" Height="450" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Grid ShowGridLines="True" Background="{StaticResource WindowTitleColorBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="White" BorderThickness="1" Height="300" Width="300" HorizontalAlignment="Left" Margin="5">
+            <Image x:Name="img" Grid.Row="0"/>
+        </Border>        
+        <Button x:Name="btn_path" Grid.Row="0" Content="……" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource AccentedSquareButtonStyle}" Click="Btn_path_Click" Margin="0,0,3,0"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5">
+            <TextBlock Text="姓名：" Foreground="Black"/>
+            <TextBox x:Name="tb_name" Width="120"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5">
+            <Button x:Name="btn_ok" Content="确定" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10" Click="Btn_ok_Click"/>
+            <Button x:Name="btn_cancle" Content="取消" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10"/>
+        </StackPanel>
+    </Grid>
+</Controls:MetroWindow>

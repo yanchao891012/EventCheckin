@@ -11,13 +11,13 @@ namespace EventCheckin.Model
     /// </summary>
    public class SalesManEntity
     {
-        private int _iD;
+        private long _iD;
         private string _name;
         private string _imageName;
         /// <summary>
         /// ID
         /// </summary>
-        public int ID
+        public long ID
         {
             get
             {

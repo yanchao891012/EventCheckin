@@ -6,9 +6,26 @@
         xmlns:local="clr-namespace:EventCheckin"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:vm="clr-namespace:EventCheckin.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="签到系统" Height="450" Width="800" WindowStartupLocation="CenterScreen" DataContext="{Binding Main,Source={x:Static vm:ViewModelLocator.Instance}}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="业务员维护" Command="{Binding SalesManEditUcCommand}"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid Background="{StaticResource WindowTitleColorBrush}">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource MetroTextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

@@ -17,11 +17,16 @@ namespace EventCheckin.View
     /// <summary>
     /// SalesManEditWin.xaml 的交互逻辑
     /// </summary>
-    public partial class SalesManEditWin : Window
+    public partial class SalesManEditWin
     {
         public SalesManEditWin()
         {
             InitializeComponent();
+        }
+
+        private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = e.Row.GetIndex() + 1;
         }
     }
 }
