@@ -10,6 +10,8 @@ using EventCheckin.DB;
 using GalaSoft.MvvmLight.Command;
 using YC.UCTool.MessageBoxs;
 using EventCheckin.View;
+using System.Text.RegularExpressions;
+using YC.UtilTool;
 
 namespace EventCheckin.ViewModel
 {
@@ -87,6 +89,7 @@ namespace EventCheckin.ViewModel
                 RaisePropertyChanged(() => this.SelectedSalesManListBox);
             }
         }
+
         #endregion
 
         #region 事件
@@ -100,7 +103,7 @@ namespace EventCheckin.ViewModel
             {
                 return _loadCommand ?? (_loadCommand = new RelayCommand(() =>
                 {
-                    SalesManList= new ObservableCollection<SalesManEntity>(DBHelper.SelectSalesMan());
+                    SalesManList = new ObservableCollection<SalesManEntity>(DBHelper.SelectSalesMan());
                     if (SalesManList.Count <= 0)
                     {
                         CustomMessageBox.ShowInfoMessage("现在还没有业务员信息，即将跳转业务员维护页面！");
@@ -158,12 +161,45 @@ namespace EventCheckin.ViewModel
                 return _deleteSalesManCommand ?? (_deleteSalesManCommand = new RelayCommand(() =>
                     {
                         string mess = "是否删除“" + SelectedSalesManDataGrid.Name + "”用户？\r\n删除的同时会清空与之相关的客户关联关系，请小心操作";
-                        if (CustomMessageBox.ShowQuestionMessage(mess)== System.Windows.MessageBoxResult.Yes)
+                        if (CustomMessageBox.ShowQuestionMessage(mess) == System.Windows.MessageBoxResult.Yes)
                         {
                             DBHelper.DeleteSalesMans(SelectedSalesManDataGrid.ID);
                             SalesManList = new ObservableCollection<SalesManEntity>(DBHelper.SelectSalesMan());
                         }
                     }));
+            }
+        }
+
+        private RelayCommand _addCustomCommand;
+        /// <summary>
+        /// 新增客户
+        /// </summary>
+        public RelayCommand AddCustomCommand
+        {
+            get
+            {
+                return _addCustomCommand ?? (_addCustomCommand = new RelayCommand(() =>
+                    {
+
+                        if (string.IsNullOrEmpty(Custom.Name) || string.IsNullOrEmpty(Custom.PhoneNum) || !Regex.IsMatch(Custom.PhoneNum, RegexHelper.PhoneNum_Regex) || string.IsNullOrEmpty(SelectedSalesManListBox.ImageName))
+                        {
+                            CustomMessageBox.ShowInfoMessage("请填入正确数据，并且选择业务员！");
+                            return;
+                        }
+
+                        List<CustomEntity> temp = DBHelper.SelectCustom("PhoneNum=" + Custom.PhoneNum);
+                        if (temp.Count > 0)
+                        {
+                            CustomMessageBox.ShowInfoMessage("此手机号已存在，请更换其他手机号进行添加！");
+                            return;
+                        }
+                        DBHelper.InsertCustom(Custom.Name, Custom.PhoneNum, SelectedSalesManListBox.ID);
+                        CustomMessageBox.ShowInfoMessage("添加成功！");
+                        Custom.Name = null;
+                        Custom.PhoneNum = null;
+                        SelectedSalesManListBox = null; 
+                    })
+                );
             }
         }
         #endregion

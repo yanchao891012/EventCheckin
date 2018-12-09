@@ -120,6 +120,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MinWidth="200"/>
+                    <ColumnDefinition Width="3"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
@@ -129,11 +130,15 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock Text="客户电话："/>
-                        <TextBox Text="{Binding Custom.PhoneNum,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,NotifyOnValidationError=True}" Width="120"/>
+                        <TextBox Text="{Binding Custom.PhoneNum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,NotifyOnValidationError=True}" Width="120"/>
                     </StackPanel>
+
+                    <Button Content="添加" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Margin="10" Command="{Binding AddCustomCommand}"/>
                 </StackPanel>
 
-                <ListBox Grid.Column="1" ItemsSource="{Binding SalesManList}" SelectedItem="{Binding SelectedSalesManListBox,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="Transparent" Style="{StaticResource VirtualisedMetroListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+
+                <ListBox Grid.Column="2" ItemsSource="{Binding SalesManList}" SelectedItem="{Binding SelectedSalesManListBox,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="Transparent" Style="{StaticResource VirtualisedMetroListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal"/>

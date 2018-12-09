@@ -14,10 +14,10 @@ namespace EventCheckin.Model
     /// </summary>
     public class CustomEntity : INotifyPropertyChanged, IDataErrorInfo
     {
-        private int _iD;
+        private long _iD;
         private string _name;
         private string _phoneNum;
-        private string _salesManID;
+        private int _salesManID;
 
         public string this[string columnName]
         {
@@ -30,7 +30,7 @@ namespace EventCheckin.Model
         /// <summary>
         /// ID
         /// </summary>
-        public int ID
+        public long ID
         {
             get
             {
@@ -77,7 +77,7 @@ namespace EventCheckin.Model
         /// <summary>
         /// 业务员ID
         /// </summary>
-        public string SalesManID
+        public int SalesManID
         {
             get
             {

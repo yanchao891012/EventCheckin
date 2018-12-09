@@ -63,7 +63,7 @@ namespace EventCheckin.DB
                 string sql = "Select * From SalesMan_TB";
                 if (!string.IsNullOrEmpty(condition))
                 {
-                    sql += "where " + condition;
+                    sql += " where " + condition;
                 }
                 SQLiteCommand command = new SQLiteCommand(sql, db_Connection);
                 SQLiteDataReader reader = command.ExecuteReader();
@@ -149,6 +149,60 @@ namespace EventCheckin.DB
                     }
                 }
             }
+        }
+        /// <summary>
+        /// 查询顾客
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public static List<CustomEntity> SelectCustom(string condition = "")
+        {
+            try
+            {
+                ConnectionToDataBase();
+                List<CustomEntity> list = new List<CustomEntity>();
+                string sql = "Select * from Customer_TB";
+                if (!string.IsNullOrEmpty(condition))
+                {
+                    sql += " where " + condition;
+                }
+                SQLiteCommand command = new SQLiteCommand(sql, db_Connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    CustomEntity custom = new CustomEntity()
+                    {
+                        ID = (long)reader["ID"],
+                        Name = reader["Name"].ToString(),
+                        PhoneNum = reader["PhoneNum"].ToString(),
+                        SalesManID = (int)reader["SalesManID"]
+                    };
+                    list.Add(custom);
+                }
+                command.Dispose();
+                reader.Close();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                db_Connection.Close();
+                db_Connection.Dispose();
+            }
+        }
+        /// <summary>
+        /// 插入客户
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNum"></param>
+        /// <param name="salesManID"></param>
+        public static void InsertCustom(string name, string phoneNum, long salesManID)
+        {
+            string sql = "Insert into Customer_TB(Name,PhoneNum,SalesManID) values ('" + name + "','" + phoneNum + "'," + salesManID + ")";
+            CommandToTable(sql);
         }
     }
 }
