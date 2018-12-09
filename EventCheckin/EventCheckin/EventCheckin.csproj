@@ -95,12 +95,19 @@
     <Compile Include="Model\SalesManEntity.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\CustomEditWin.xaml.cs">
+      <DependentUpon>CustomEditWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SalesManAddWin.xaml.cs">
       <DependentUpon>SalesManAddWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SalesManEditWin.xaml.cs">
       <DependentUpon>SalesManEditWin.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\CustomEditWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

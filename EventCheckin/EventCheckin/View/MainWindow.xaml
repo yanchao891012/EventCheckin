@@ -17,6 +17,7 @@
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="业务员维护" Command="{Binding SalesManEditUcCommand}"/>
+            <Button Content="客户维护" Command="{Binding CustomEditUcCommand}"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid Background="{StaticResource WindowTitleColorBrush}">

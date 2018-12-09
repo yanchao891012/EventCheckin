@@ -18,6 +18,7 @@ namespace EventCheckin.Model
         private string _name;
         private string _phoneNum;
         private int _salesManID;
+        private string _salesManName;
 
         public string this[string columnName]
         {
@@ -87,6 +88,21 @@ namespace EventCheckin.Model
             set
             {
                 _salesManID = value;
+            }
+        }
+        /// <summary>
+        /// 业务员名称
+        /// </summary>
+        public string SalesManName
+        {
+            get
+            {
+                return _salesManName;
+            }
+
+            set
+            {
+                _salesManName = value;
             }
         }
 

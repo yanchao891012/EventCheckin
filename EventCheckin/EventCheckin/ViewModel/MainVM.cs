@@ -90,6 +90,41 @@ namespace EventCheckin.ViewModel
             }
         }
 
+        private ObservableCollection<CustomEntity> _customList = new ObservableCollection<CustomEntity>();
+        /// <summary>
+        /// 客户列表
+        /// </summary>
+        public ObservableCollection<CustomEntity> CustomList
+        {
+            get
+            {
+                return _customList;
+            }
+
+            set
+            {
+                _customList = value;
+                RaisePropertyChanged(() => this.CustomList);
+            }
+        }
+
+        private CustomEntity _selectedCustom = new CustomEntity();
+        /// <summary>
+        /// 客户选择
+        /// </summary>
+        public CustomEntity SelectedCustom
+        {
+            get
+            {
+                return _selectedCustom;
+            }
+
+            set
+            {
+                _selectedCustom = value;
+                RaisePropertyChanged(() => this.SelectedCustom);
+            }
+        }
         #endregion
 
         #region 事件
@@ -125,6 +160,24 @@ namespace EventCheckin.ViewModel
                 return _salesManEditUcCommand ?? (_salesManEditUcCommand = new RelayCommand(() =>
                     {
                         SalesManEditWin win = new SalesManEditWin();
+                        win.Owner = NativeMethods.GetActiveWindowEx();
+                        win.ShowDialog();
+                    }));
+            }
+        }
+
+        private RelayCommand _customEditUcCommand;
+        /// <summary>
+        /// 跳转客户维护页面
+        /// </summary>
+        public RelayCommand CustomEditUcCommand
+        {
+            get
+            {
+                return _customEditUcCommand ?? (_customEditUcCommand = new RelayCommand(() =>
+                    {
+                        CustomEditWin win = new CustomEditWin();
+                        win.Owner = NativeMethods.GetActiveWindowEx();
                         win.ShowDialog();
                     }));
             }
@@ -197,9 +250,86 @@ namespace EventCheckin.ViewModel
                         CustomMessageBox.ShowInfoMessage("添加成功！");
                         Custom.Name = null;
                         Custom.PhoneNum = null;
-                        SelectedSalesManListBox = null; 
+                        SelectedSalesManListBox = null;
                     })
                 );
+            }
+        }
+
+        private RelayCommand _loadCustomCommand;
+        /// <summary>
+        /// 客户维护页面加载
+        /// </summary>
+        public RelayCommand LoadCustomCommand
+        {
+            get
+            {
+                return _loadCustomCommand ?? (_loadCustomCommand = new RelayCommand(() =>
+                {
+                    LoadCustom();
+                }));
+            }
+        }
+
+        private void LoadCustom()
+        {
+            CustomList = new ObservableCollection<CustomEntity>(DBHelper.SelectCustom());
+            foreach (var item in CustomList)
+            {
+                item.SalesManName = SalesManList.FirstOrDefault(p => p.ID == item.SalesManID) == null ? "" : SalesManList.FirstOrDefault(p => p.ID == item.SalesManID).Name;
+            }
+        }
+
+        private RelayCommand _exportCustomCommand;
+        /// <summary>
+        /// 导出客户
+        /// </summary>
+        public RelayCommand ExportCustomCommand
+        {
+            get
+            {
+                return _exportCustomCommand ?? (_exportCustomCommand = new RelayCommand(() =>
+                    {
+
+                    }));
+            }
+        }
+
+        private RelayCommand _clearCustomCommand;
+        /// <summary>
+        /// 清空客户
+        /// </summary>
+        public RelayCommand ClearCustomCommand
+        {
+            get
+            {
+                return _clearCustomCommand ?? (_clearCustomCommand = new RelayCommand(() =>
+                    {
+                        if (CustomMessageBox.ShowQuestionMessage("确定要情况客户列表？")== System.Windows.MessageBoxResult.Yes)
+                        {
+                            DBHelper.DeleteCustom();
+                        }
+                        LoadCustom();
+                    }));
+            }
+        }
+
+        private RelayCommand _deleteCustomCommand;
+        /// <summary>
+        /// 删除客户
+        /// </summary>
+        public RelayCommand DeleteCustomCommand
+        {
+            get
+            {
+                return _deleteCustomCommand ?? (_deleteCustomCommand = new RelayCommand(() =>
+                    {
+                        if (CustomMessageBox.ShowQuestionMessage("确定要删除选中用户？")== System.Windows.MessageBoxResult.Yes)
+                        {
+                            DBHelper.DeleteCustom("ID=" + SelectedCustom.ID);
+                        }
+                        LoadCustom();
+                    }));
             }
         }
         #endregion

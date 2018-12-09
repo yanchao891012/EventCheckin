@@ -128,7 +128,7 @@ namespace EventCheckin.DB
 
                         try
                         {
-                            cmd.CommandText = "update Customer_TB set SalesManID=null where SalesManID=" + id + "";
+                            cmd.CommandText = "update Customer_TB set SalesManID=-1 where SalesManID=" + id + "";
                             cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From SalesMan_TB where ID=" + id + "";
                             cmd.ExecuteNonQuery();
@@ -202,6 +202,19 @@ namespace EventCheckin.DB
         public static void InsertCustom(string name, string phoneNum, long salesManID)
         {
             string sql = "Insert into Customer_TB(Name,PhoneNum,SalesManID) values ('" + name + "','" + phoneNum + "'," + salesManID + ")";
+            CommandToTable(sql);
+        }
+        /// <summary>
+        /// 删除客户
+        /// </summary>
+        /// <param name="condition"></param>
+        public static void DeleteCustom(string condition="")
+        {
+            string sql = "Delete from Customer_TB";
+            if (!string.IsNullOrEmpty(condition))
+            {
+                sql += " where " + condition;
+            }
             CommandToTable(sql);
         }
     }
