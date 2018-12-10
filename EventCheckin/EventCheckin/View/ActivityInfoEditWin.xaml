@@ -1,0 +1,54 @@
+﻿<Controls:MetroWindow x:Class="EventCheckin.View.ActivityInfoEditWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EventCheckin.View"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:vm="clr-namespace:EventCheckin.ViewModel"
+        xmlns:tools="clr-namespace:YC.UtilTool;assembly=YC.UtilTool"
+        mc:Ignorable="d"
+        Title="活动名设置页面" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False" DataContext="{Binding Main,Source={x:Static vm:ViewModelLocator.Instance}}">
+    <Grid Background="{StaticResource WindowTitleColorBrush}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <tools:BoolToValueConvert x:Key="bcv"/>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource MetroTextBlock}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Margin" Value="2,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="公司名："/>
+            <TextBox Text="{Binding AddActivityInfo.ComponyName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="200"/>
+            <TextBlock Text="活动名："/>
+            <TextBox Text="{Binding AddActivityInfo.EventName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="200"/>
+            <Button Content="添加" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Margin="10,0" Command="{Binding AddActivityCommand}"/>
+        </StackPanel>
+        <DataGrid Grid.Row="1" CanUserAddRows="False" AutoGenerateColumns="False" ItemsSource="{Binding ActivityInfoList}" SelectedItem="{Binding SelectedActivityInfo,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="公司名" Binding="{Binding ComponyName,Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="活动名" Binding="{Binding EventName,Mode=OneWay}" Width="*"/>
+                <DataGridCheckBoxColumn Header="是否启用" Binding="{Binding Enabled,Mode=OneWay}" Width="*"/>
+                <DataGridTemplateColumn Header="操作" Width="190">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="启用" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Command="{Binding DataContext.EnabledActivityCommand,RelativeSource={RelativeSource AncestorType=DataGrid,Mode=FindAncestor}}"/>
+                                <Button Content="删除" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Background="Red" Command="{Binding DataContext.DeleteActivityCommand,RelativeSource={RelativeSource AncestorType=DataGrid,Mode=FindAncestor}}" Visibility="{Binding Enabled,Converter={StaticResource bcv},ConverterParameter=Hidden,FallbackValue=Visible}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Controls:MetroWindow>

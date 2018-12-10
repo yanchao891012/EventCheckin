@@ -127,6 +127,78 @@ namespace EventCheckin.ViewModel
                 RaisePropertyChanged(() => this.SelectedCustom);
             }
         }
+
+        private ActivityInfoEntity _enabledActivityInfo = new ActivityInfoEntity();
+        /// <summary>
+        /// 启用的标题
+        /// </summary>
+        public ActivityInfoEntity EnabledActivityInfo
+        {
+            get
+            {
+                return _enabledActivityInfo;
+            }
+
+            set
+            {
+                _enabledActivityInfo = value;
+                RaisePropertyChanged(() => this.EnabledActivityInfo);
+            }
+        }
+
+        private ActivityInfoEntity _addActivityInfo = new ActivityInfoEntity();
+        /// <summary>
+        /// 要添加的标题
+        /// </summary>
+        public ActivityInfoEntity AddActivityInfo
+        {
+            get
+            {
+                return _addActivityInfo;
+            }
+
+            set
+            {
+                _addActivityInfo = value;
+                RaisePropertyChanged(() => this.AddActivityInfo);
+            }
+        }
+
+        private ObservableCollection<ActivityInfoEntity> _activityInfoList = new ObservableCollection<ActivityInfoEntity>();
+        /// <summary>
+        /// 活动集合
+        /// </summary>
+        public ObservableCollection<ActivityInfoEntity> ActivityInfoList
+        {
+            get
+            {
+                return _activityInfoList;
+            }
+
+            set
+            {
+                _activityInfoList = value;
+                RaisePropertyChanged(() => this.ActivityInfoList);
+            }
+        }
+
+        private ActivityInfoEntity _selectedActivityInfo = new ActivityInfoEntity();
+        /// <summary>
+        /// 活动选中
+        /// </summary>
+        public ActivityInfoEntity SelectedActivityInfo
+        {
+            get
+            {
+                return _selectedActivityInfo;
+            }
+
+            set
+            {
+                _selectedActivityInfo = value;
+                RaisePropertyChanged(() => this.SelectedActivityInfo);
+            }
+        }
         #endregion
 
         #region 事件
@@ -140,6 +212,7 @@ namespace EventCheckin.ViewModel
             {
                 return _loadCommand ?? (_loadCommand = new RelayCommand(() =>
                 {
+                    GetActivityInfo();
                     SalesManList = new ObservableCollection<SalesManEntity>(DBHelper.SelectSalesMan());
                     if (SalesManList.Count <= 0)
                     {
@@ -345,6 +418,82 @@ namespace EventCheckin.ViewModel
                         LoadCustom();
                     }));
             }
+        }
+
+        private RelayCommand _editActivityWinCommand;
+        /// <summary>
+        /// 跳转活动编辑页面
+        /// </summary>
+        public RelayCommand EditActivityWinCommand
+        {
+            get
+            {
+                return _editActivityWinCommand ?? (_editActivityWinCommand = new RelayCommand(() =>
+                    {
+                        ActivityInfoEditWin win = new ActivityInfoEditWin();
+                        win.ShowDialog();
+                    }));
+            }
+        }
+
+        private RelayCommand _addActivityCommand;
+        /// <summary>
+        /// 添加活动名称
+        /// </summary>
+        public RelayCommand AddActivityCommand
+        {
+            get
+            {
+                return _addActivityCommand ?? (_addActivityCommand = new RelayCommand(() =>
+                {
+                    if (string.IsNullOrEmpty(AddActivityInfo.ComponyName) || string.IsNullOrEmpty(AddActivityInfo.EventName))
+                    {
+                        CustomMessageBox.ShowInfoMessage("请输入公司名和活动名！");
+                        return;
+                    }
+
+                    DBHelper.InsertActivityInfo(AddActivityInfo.ComponyName, AddActivityInfo.EventName);
+                    GetActivityInfo();
+                }));
+            }
+        }
+
+        private RelayCommand _enabledActivityCommand;
+        /// <summary>
+        /// 启用活动
+        /// </summary>
+        public RelayCommand EnabledActivityCommand
+        {
+            get
+            {
+                return _enabledActivityCommand ?? (_enabledActivityCommand = new RelayCommand(() =>
+                    {
+                        DBHelper.UpdateActivityInfo(SelectedActivityInfo.ID);
+                        GetActivityInfo();
+                    }));
+            }
+        }
+
+        private RelayCommand _deleteActivityCommand;
+        /// <summary>
+        /// 删除活动
+        /// </summary>
+        public RelayCommand DeleteActivityCommand
+        {
+            get
+            {
+                return _deleteActivityCommand ?? (_deleteActivityCommand = new RelayCommand(() =>
+                    {
+                        DBHelper.DeleteActivityInfo(SelectedActivityInfo.ID);
+                        GetActivityInfo();
+                    }));
+            }
+        }
+
+        private void GetActivityInfo()
+        {
+            ActivityInfoList = new ObservableCollection<ActivityInfoEntity>(DBHelper.SelectActivityInfo());
+            EnabledActivityInfo = DBHelper.SelectActivityInfo("Enabled=True")[0];
         }
         #endregion
     }

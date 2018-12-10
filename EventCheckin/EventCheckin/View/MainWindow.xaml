@@ -18,6 +18,7 @@
         <Controls:WindowCommands>
             <Button Content="业务员维护" Command="{Binding SalesManEditUcCommand}"/>
             <Button Content="客户维护" Command="{Binding CustomEditUcCommand}"/>
+            <Button Content="活动编辑" Command="{Binding EditActivityWinCommand}"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid Background="{StaticResource WindowTitleColorBrush}">
@@ -114,8 +115,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="中华企业咨询管理公司" Grid.Row="0" Grid.ColumnSpan="2" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <TextBlock Text="签到活动系统" Grid.Row="1" Grid.Column="1" FontWeight="Bold" FontSize="20"/>
+            <TextBlock Text="{Binding EnabledActivityInfo.ComponyName}" Grid.Row="0" Grid.ColumnSpan="2" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding EnabledActivityInfo.EventName}" Grid.Row="1" Grid.Column="1" FontWeight="Bold" FontSize="20"/>
         </Grid>
         <Border Grid.Row="1" Margin="5" BorderBrush="White" BorderThickness="2">
             <Grid>
