@@ -20,9 +20,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="导出" Command="{Binding ExportCustomCommand}" Grid.Row="0" Width="80" HorizontalAlignment="Right" Margin="5" Style="{StaticResource AccentedSquareButtonStyle}"/>
+            <Button Content="导出" Command="{Binding ExportCustomCommand}" CommandParameter="{Binding ElementName=dg}" Grid.Row="0" Width="80" HorizontalAlignment="Right" Margin="5" Style="{StaticResource AccentedSquareButtonStyle}"/>
             <Button Content="清空" Command="{Binding ClearCustomCommand}" Grid.Row="0" Width="80" HorizontalAlignment="Right" Margin="5" Style="{StaticResource AccentedSquareButtonStyle}" Background="Red"/>
         </StackPanel>
+        <DataGrid x:Name="dg" Grid.Row="1" CanUserAddRows="False" AutoGenerateColumns="False" GridLinesVisibility="All" Margin="5" Height="Auto" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding CustomList}" SelectedItem="{Binding SelectedCustom,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="序号" Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGridRow},Path=Header}" Width="50"/>
+                <DataGridTextColumn Header="客户姓名" Binding="{Binding Name,Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="客户电话" Binding="{Binding PhoneNum,Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="业务员姓名" Binding="{Binding SalesManName,Mode=OneWay}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <DataGrid Grid.Row="1" CanUserAddRows="False" AutoGenerateColumns="False" GridLinesVisibility="All" Margin="5" Height="Auto" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding CustomList}" SelectedItem="{Binding SelectedCustom,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="序号" Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGridRow},Path=Header}" Width="50"/>

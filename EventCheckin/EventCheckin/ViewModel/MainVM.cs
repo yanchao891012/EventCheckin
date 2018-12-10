@@ -12,6 +12,8 @@ using YC.UCTool.MessageBoxs;
 using EventCheckin.View;
 using System.Text.RegularExpressions;
 using YC.UtilTool;
+using Microsoft.Win32;
+using System.Windows.Controls;
 
 namespace EventCheckin.ViewModel
 {
@@ -280,17 +282,29 @@ namespace EventCheckin.ViewModel
             }
         }
 
-        private RelayCommand _exportCustomCommand;
+        private RelayCommand<DataGrid> _exportCustomCommand;
         /// <summary>
         /// 导出客户
         /// </summary>
-        public RelayCommand ExportCustomCommand
+        public RelayCommand<DataGrid> ExportCustomCommand
         {
             get
             {
-                return _exportCustomCommand ?? (_exportCustomCommand = new RelayCommand(() =>
+                return _exportCustomCommand ?? (_exportCustomCommand = new RelayCommand<DataGrid>(p =>
                     {
+                        if (CustomList.Count<=0)
+                        {
+                            CustomMessageBox.ShowInfoMessage("列表为空，请确保有数据以后，再导出！");
+                            return;
+                        }
 
+                        SaveFileDialog dialog = new SaveFileDialog();
+                        dialog.Filter = "Excel|*.xls";
+                        if (dialog.ShowDialog()==true)
+                        {
+                            ExportExcel.EE(p, "客户签到列表", dialog.FileName);
+                            CustomMessageBox.ShowInfoMessage("导出成功");
+                        }
                     }));
             }
         }
