@@ -56,9 +56,9 @@ namespace EventCheckin.View
         {
             try
             {
-                if (string.IsNullOrEmpty(oldFilePath) || string.IsNullOrEmpty(tb_name.Text))
+                if (string.IsNullOrEmpty(oldFilePath) || string.IsNullOrEmpty(tb_name.Text) || string.IsNullOrEmpty(tb_tableno.Text))
                 {
-                    CustomMessageBox.ShowInfoMessage("图片和姓名缺一不可！");
+                    CustomMessageBox.ShowInfoMessage("图片、姓名、桌号缺一不可！");
                     return;
                 }
                 //文件夹不存在的话，创建文件夹
@@ -70,11 +70,12 @@ namespace EventCheckin.View
                 string imgName = Guid.NewGuid().ToString("N") + ".jpg";
                 File.Copy(oldFilePath, CommonValues.IMAGEPATH + "\\" + imgName);
 
-                DBHelper.InsertSalesMans(tb_name.Text.Trim(), imgName);
+                DBHelper.InsertSalesMans(tb_name.Text.Trim(), imgName, tb_tableno.Text.Trim());
 
                 CustomMessageBox.ShowInfoMessage("添加业务员成功！");
                 oldFilePath = string.Empty;
                 tb_name.Text = string.Empty;
+                tb_tableno.Text = string.Empty;
                 img.Source = null;
             }
             catch (Exception ex)

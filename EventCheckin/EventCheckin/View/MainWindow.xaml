@@ -132,10 +132,10 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock Text="客户电话："/>
-                        <TextBox Text="{Binding Custom.PhoneNum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,NotifyOnValidationError=True}" Width="120"/>
+                        <TextBox Text="{Binding Custom.PhoneNum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="120"/>
                     </StackPanel>
 
-                    <Button Content="添加" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Margin="10" Command="{Binding AddCustomCommand}"/>
+                    <Button Content="签到" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Margin="10" Command="{Binding AddCustomCommand}"/>
                 </StackPanel>
 
                 <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>

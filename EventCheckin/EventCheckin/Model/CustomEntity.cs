@@ -19,6 +19,7 @@ namespace EventCheckin.Model
         private string _phoneNum;
         private int _salesManID;
         private string _salesManName;
+        private string _tableNo;
 
         public string this[string columnName]
         {
@@ -105,6 +106,21 @@ namespace EventCheckin.Model
                 _salesManName = value;
             }
         }
+        /// <summary>
+        /// 桌号
+        /// </summary>
+        public string TableNo
+        {
+            get
+            {
+                return _tableNo;
+            }
+
+            set
+            {
+                _tableNo = value;
+            }
+        }
 
         public string Error { get; }
 
@@ -125,6 +141,7 @@ namespace EventCheckin.Model
             [CustomValidation(typeof(ValidationHelper), "CheckPhoneNum")]
             public string PhoneNum { get; set; }
             public string SalesManID { get; set; }
+            public string TableNo { get; set; }
         }
     }
 }

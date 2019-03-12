@@ -16,6 +16,7 @@ namespace EventCheckin.Model
         private string _name;
         private string _imageName;
         private string _imagePath;
+        private string _tableNo;
         /// <summary>
         /// ID
         /// </summary>
@@ -76,6 +77,21 @@ namespace EventCheckin.Model
             set
             {
                 _imagePath = value;
+            }
+        }
+        /// <summary>
+        /// 桌号
+        /// </summary>
+        public string TableNo
+        {
+            get
+            {
+                return _tableNo;
+            }
+
+            set
+            {
+                _tableNo = value;
             }
         }
     }

@@ -20,6 +20,7 @@
                 <DataGridTextColumn Header="序号" Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGridRow},Path=Header}" Width="50"/>
                 <DataGridTextColumn Header="姓名" Binding="{Binding Name,Mode=OneWay}" Width="*"/>
                 <DataGridTextColumn Header="图片路径" Binding="{Binding ImageName,Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="桌号" Binding="{Binding TableNo,Mode=OneWay}" Width="*"/>
                 <DataGridTemplateColumn Header="操作" Width="90">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

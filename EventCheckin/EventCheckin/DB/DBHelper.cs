@@ -73,7 +73,8 @@ namespace EventCheckin.DB
                     {
                         ID = (long)reader["ID"],//注意：数据库里是Integer类型，对应C#里是Long，如果用Int会出错
                         Name = reader["Name"].ToString(),
-                        ImageName = reader["ImageName"].ToString()
+                        ImageName = reader["ImageName"].ToString(),
+                        TableNo = reader["TableNo"].ToString()
                     };
                     list.Add(salesMan);
                 }
@@ -96,9 +97,9 @@ namespace EventCheckin.DB
         /// </summary>
         /// <param name="name"></param>
         /// <param name="imagename"></param>
-        public static void InsertSalesMans(string name, string imagename)
+        public static void InsertSalesMans(string name, string imagename, string tableno)
         {
-            string sql = "Insert into SalesMan_TB(Name,ImageName) values ('" + name + "','" + imagename + "')";
+            string sql = "Insert into SalesMan_TB(Name,ImageName,TableNo) values ('" + name + "','" + imagename + "','" + tableno + "')";
             CommandToTable(sql);
         }
         /// <summary>
@@ -175,7 +176,8 @@ namespace EventCheckin.DB
                         ID = (long)reader["ID"],
                         Name = reader["Name"].ToString(),
                         PhoneNum = reader["PhoneNum"].ToString(),
-                        SalesManID = (int)reader["SalesManID"]
+                        SalesManID = (int)reader["SalesManID"],
+                        TableNo = reader["TableNo"].ToString()
                     };
                     list.Add(custom);
                 }
@@ -199,16 +201,16 @@ namespace EventCheckin.DB
         /// <param name="name"></param>
         /// <param name="phoneNum"></param>
         /// <param name="salesManID"></param>
-        public static void InsertCustom(string name, string phoneNum, long salesManID)
+        public static void InsertCustom(string name, string phoneNum, long salesManID, string tableNo)
         {
-            string sql = "Insert into Customer_TB(Name,PhoneNum,SalesManID) values ('" + name + "','" + phoneNum + "'," + salesManID + ")";
+            string sql = "Insert into Customer_TB(Name,PhoneNum,SalesManID,TableNo) values ('" + name + "','" + phoneNum + "'," + salesManID + ",'" + tableNo + "')";
             CommandToTable(sql);
         }
         /// <summary>
         /// 删除客户
         /// </summary>
         /// <param name="condition"></param>
-        public static void DeleteCustom(string condition="")
+        public static void DeleteCustom(string condition = "")
         {
             string sql = "Delete from Customer_TB";
             if (!string.IsNullOrEmpty(condition))
@@ -222,7 +224,7 @@ namespace EventCheckin.DB
         /// </summary>
         /// <param name="companyName"></param>
         /// <param name="eventName"></param>
-        public static void InsertActivityInfo(string companyName,string eventName)
+        public static void InsertActivityInfo(string companyName, string eventName)
         {
             string sql = "Insert into ActivityInfo_TB(ComponyName,EventName) values ('" + companyName + "','" + eventName + "')";
             CommandToTable(sql);
@@ -271,7 +273,7 @@ namespace EventCheckin.DB
         /// <param name="id"></param>
         public static void DeleteActivityInfo(long id)
         {
-            string sql= "Delete From ActivityInfo_TB where ID=" + id + "";
+            string sql = "Delete From ActivityInfo_TB where ID=" + id + "";
             CommandToTable(sql);
         }
         /// <summary>
@@ -307,7 +309,39 @@ namespace EventCheckin.DB
             }
             catch (Exception ex)
             {
-                throw(ex);
+                throw (ex);
+            }
+            finally
+            {
+                db_Connection.Close();
+                db_Connection.Dispose();
+            }
+        }
+        /// <summary>
+        /// 查询桌上有多少个客户
+        /// </summary>
+        /// <param name="tableno"></param>
+        /// <returns></returns>
+        public static int SelectCountTableNoCustoms(string tableno)
+        {
+            try
+            {
+                ConnectionToDataBase();
+                int num = -1;
+                string sql = "Select Count(*) as num from Customer_TB Where TableNo='" + tableno + "'";
+                SQLiteCommand command = new SQLiteCommand(sql, db_Connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    num = Int32.Parse(reader["num"].ToString());
+                }
+                command.Dispose();
+                reader.Close();
+                return num;
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
             }
             finally
             {

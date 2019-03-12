@@ -309,19 +309,40 @@ namespace EventCheckin.ViewModel
                 return _addCustomCommand ?? (_addCustomCommand = new RelayCommand(() =>
                     {
 
-                        if (string.IsNullOrEmpty(Custom.Name) || string.IsNullOrEmpty(Custom.PhoneNum) || !Regex.IsMatch(Custom.PhoneNum, RegexHelper.PhoneNum_Regex) || string.IsNullOrEmpty(SelectedSalesManListBox.ImageName))
+                        if (string.IsNullOrEmpty(Custom.Name) || SelectedSalesManListBox==null || string.IsNullOrEmpty(SelectedSalesManListBox.ImageName))
                         {
                             CustomMessageBox.ShowInfoMessage("请填入正确数据，并且选择业务员！");
                             return;
                         }
-
-                        List<CustomEntity> temp = DBHelper.SelectCustom("PhoneNum=" + Custom.PhoneNum);
-                        if (temp.Count > 0)
+                        //手机号不为空的时候才判别
+                        if (!string.IsNullOrEmpty(Custom.PhoneNum))
                         {
-                            CustomMessageBox.ShowInfoMessage("此手机号已存在，请更换其他手机号进行添加！");
+                            List<CustomEntity> temp = DBHelper.SelectCustom("PhoneNum=" + Custom.PhoneNum);
+                            if (temp.Count > 0)
+                            {
+                                CustomMessageBox.ShowInfoMessage("此手机号已存在，请更换其他手机号进行添加！");
+                                return;
+                            }
+                        }
+
+                        string[] tableNos = SelectedSalesManListBox.TableNo.Split(',');
+                        string tableno = "";
+                        foreach (var item in tableNos)
+                        {
+                            if (DBHelper.SelectCountTableNoCustoms(item) < 10)
+                            {
+                                tableno = item;
+                                break;
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(tableno))
+                        {
+                            CustomMessageBox.ShowInfoMessage("此业务员对应的桌数已满，请选择其他业务员！");
                             return;
                         }
-                        DBHelper.InsertCustom(Custom.Name, Custom.PhoneNum, SelectedSalesManListBox.ID);
+
+                        DBHelper.InsertCustom(Custom.Name, Custom.PhoneNum, SelectedSalesManListBox.ID, tableno);
                         CustomMessageBox.ShowInfoMessage("添加成功！");
                         Custom.Name = null;
                         Custom.PhoneNum = null;
@@ -365,7 +386,7 @@ namespace EventCheckin.ViewModel
             {
                 return _exportCustomCommand ?? (_exportCustomCommand = new RelayCommand<DataGrid>(p =>
                     {
-                        if (CustomList.Count<=0)
+                        if (CustomList.Count <= 0)
                         {
                             CustomMessageBox.ShowInfoMessage("列表为空，请确保有数据以后，再导出！");
                             return;
@@ -373,7 +394,7 @@ namespace EventCheckin.ViewModel
 
                         SaveFileDialog dialog = new SaveFileDialog();
                         dialog.Filter = "Excel|*.xls";
-                        if (dialog.ShowDialog()==true)
+                        if (dialog.ShowDialog() == true)
                         {
                             ExportExcel.EE(p, "客户签到列表", dialog.FileName);
                             CustomMessageBox.ShowInfoMessage("导出成功");
@@ -392,7 +413,7 @@ namespace EventCheckin.ViewModel
             {
                 return _clearCustomCommand ?? (_clearCustomCommand = new RelayCommand(() =>
                     {
-                        if (CustomMessageBox.ShowQuestionMessage("确定要情况客户列表？")== System.Windows.MessageBoxResult.Yes)
+                        if (CustomMessageBox.ShowQuestionMessage("确定要情况客户列表？") == System.Windows.MessageBoxResult.Yes)
                         {
                             DBHelper.DeleteCustom();
                         }
@@ -411,7 +432,7 @@ namespace EventCheckin.ViewModel
             {
                 return _deleteCustomCommand ?? (_deleteCustomCommand = new RelayCommand(() =>
                     {
-                        if (CustomMessageBox.ShowQuestionMessage("确定要删除选中用户？")== System.Windows.MessageBoxResult.Yes)
+                        if (CustomMessageBox.ShowQuestionMessage("确定要删除选中用户？") == System.Windows.MessageBoxResult.Yes)
                         {
                             DBHelper.DeleteCustom("ID=" + SelectedCustom.ID);
                         }
