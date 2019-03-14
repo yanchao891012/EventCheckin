@@ -335,15 +335,17 @@ namespace EventCheckin.ViewModel
                                 break;
                             }
                         }
-
+                        string mes = "签到成功！";
                         if (string.IsNullOrEmpty(tableno))
                         {
-                            CustomMessageBox.ShowInfoMessage("此业务员对应的桌数已满，请选择其他业务员！");
-                            return;
+                            mes = "签到成功，当前业务员座位已满！";
+                            tableno = "超员";
+                            //CustomMessageBox.ShowInfoMessage("签到成功，当前业务员座位已满！");
+                            //return;
                         }
 
                         DBHelper.InsertCustom(Custom.Name, Custom.PhoneNum, SelectedSalesManListBox.ID, tableno);
-                        CustomMessageBox.ShowInfoMessage("添加成功！");
+                        CustomMessageBox.ShowInfoMessage(mes);
                         Custom.Name = null;
                         Custom.PhoneNum = null;
                         SelectedSalesManListBox = null;

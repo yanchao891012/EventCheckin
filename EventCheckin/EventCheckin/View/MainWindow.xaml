@@ -116,23 +116,23 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding EnabledActivityInfo.ComponyName}" Grid.Row="0" Grid.ColumnSpan="2" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding EnabledActivityInfo.EventName}" Grid.Row="1" Grid.Column="1" FontWeight="Bold" FontSize="20"/>
+            <TextBlock Text="{Binding EnabledActivityInfo.EventName}" Grid.Row="1" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center"/>
         </Grid>
         <Border Grid.Row="1" Margin="5" BorderBrush="White" BorderThickness="2">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
+                    <ColumnDefinition Width="*" MinWidth="300"/>
                     <ColumnDefinition Width="3"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <StackPanel Orientation="Horizontal" Margin="5" >
-                        <TextBlock Text="客户姓名："/>
-                        <TextBox Text="{Binding Custom.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,NotifyOnValidationError=True}" Width="120"/>
+                        <TextBlock Text="客户姓名：" FontSize="18"/>
+                        <TextBox Text="{Binding Custom.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,NotifyOnValidationError=True}" Width="200" Height="40" FontSize="18"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock Text="客户电话："/>
-                        <TextBox Text="{Binding Custom.PhoneNum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="120"/>
+                        <TextBlock Text="客户电话：" FontSize="18"/>
+                        <TextBox Text="{Binding Custom.PhoneNum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Height="40" FontSize="18"/>
                     </StackPanel>
 
                     <Button Content="签到" Width="80" Style="{StaticResource AccentedSquareButtonStyle}" Margin="10" Command="{Binding AddCustomCommand}"/>
