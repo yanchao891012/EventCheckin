@@ -309,7 +309,7 @@ namespace EventCheckin.ViewModel
                 return _addCustomCommand ?? (_addCustomCommand = new RelayCommand(() =>
                     {
 
-                        if (string.IsNullOrEmpty(Custom.Name) || SelectedSalesManListBox==null || string.IsNullOrEmpty(SelectedSalesManListBox.ImageName))
+                        if (string.IsNullOrEmpty(Custom.Name) || SelectedSalesManListBox == null || string.IsNullOrEmpty(SelectedSalesManListBox.ImageName))
                         {
                             CustomMessageBox.ShowInfoMessage("请填入正确数据，并且选择业务员！");
                             return;
@@ -335,10 +335,10 @@ namespace EventCheckin.ViewModel
                                 break;
                             }
                         }
-                        string mes = "签到成功！";
+                        string mes = "签到成功！您分配的桌号是" + tableno;
                         if (string.IsNullOrEmpty(tableno))
                         {
-                            mes = "签到成功，当前业务员座位已满！";
+                            mes = "签到成功！您业务员分配的座位已满！";
                             tableno = "超员";
                             //CustomMessageBox.ShowInfoMessage("签到成功，当前业务员座位已满！");
                             //return;
